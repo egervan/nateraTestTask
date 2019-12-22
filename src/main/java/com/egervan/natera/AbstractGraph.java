@@ -36,7 +36,7 @@ public abstract class AbstractGraph {
         }
 
         final List<Edge> vertexEdges = getVertexEdges(fromVertex);
-        final List<Edge> visitedEdges = new ArrayList<>();
+        final Set<Edge> visitedEdges = new HashSet<>();
         return getPathsForVertex(fromVertex, toVertex, vertexEdges, visitedEdges);
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractGraph {
                 .collect(toList());
     }
 
-    private List<Edge> getPathsForVertex(Vertex vertexFrom, Vertex vertexTo, List<Edge> edges, List<Edge> visitedEdges) {
+    private List<Edge> getPathsForVertex(Vertex vertexFrom, Vertex vertexTo, List<Edge> edges, Set<Edge> visitedEdges) {
         for (Edge edge : edges) {
             if (visitedEdges.contains(edge)) {
                 continue;
@@ -57,8 +57,8 @@ public abstract class AbstractGraph {
             if (isDependentVertex(edge, vertexTo)) {
                 return new LinkedList<>(singleton(edge));
             } else {
-                final List<Edge> neighborEdges = getVertexEdges(dependentVertex);
-                final List<Edge> pathToVertex = getPathsForVertex(dependentVertex, vertexTo, neighborEdges, visitedEdges);
+                final List<Edge> dependentVertexEdges = getVertexEdges(dependentVertex);
+                final List<Edge> pathToVertex = getPathsForVertex(dependentVertex, vertexTo, dependentVertexEdges, visitedEdges);
 
                 if (nonNull(pathToVertex)) {
                     pathToVertex.add(0, edge);
@@ -80,6 +80,8 @@ public abstract class AbstractGraph {
     }
 
     abstract boolean isLeadingVertex(Edge edge, Vertex vertex);
+
     abstract boolean isDependentVertex(Edge edge, Vertex vertex);
+
     abstract Vertex getDependentVertex(Edge edge, Vertex vertex);
 }

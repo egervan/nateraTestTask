@@ -5,6 +5,7 @@ import com.egervan.natera.model.Vertex;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import org.junit.Test;
 
 import java.util.List;
@@ -45,12 +46,12 @@ public class DirectedGraphTest {
     @Test
     public void getPath_customVertexValue() {
         final DirectedGraph directedGraph = new DirectedGraph();
-        final Vertex<CustomType> vertex1 = new Vertex<>(new CustomType("first"));
-        final Vertex<CustomType> vertex2 = new Vertex<>(new CustomType("second"));
-        final Vertex<CustomType> vertex3 = new Vertex<>(new CustomType("third"));
-        final Vertex<CustomType> vertex4 = new Vertex<>(new CustomType("fourth"));
-        final Vertex<CustomType> vertex5 = new Vertex<>(new CustomType("fifth"));
-        final Vertex<CustomType> vertex6 = new Vertex<>(new CustomType("sixth"));
+        final Vertex vertex1 = directedGraph.addVertex(new Vertex<>(new CustomType("first")));
+        final Vertex vertex2 = directedGraph.addVertex(new Vertex<>(new CustomType("second")));
+        final Vertex vertex3 = directedGraph.addVertex(new Vertex<>(new CustomType("third")));
+        final Vertex vertex4 = directedGraph.addVertex(new Vertex<>(new CustomType("fourth")));
+        final Vertex vertex5 = directedGraph.addVertex(new Vertex<>(new CustomType("fifth")));
+        final Vertex vertex6 = directedGraph.addVertex(new Vertex<>(new CustomType("sixth")));
 
         directedGraph.addEdge(new Edge(vertex1, vertex3));
         directedGraph.addEdge(new Edge(vertex3, vertex4));
@@ -102,6 +103,7 @@ public class DirectedGraphTest {
         assertSame(vertex2, directedGraph.getDependentVertex(edge, vertex2));
     }
 
+    @ToString
     @Getter
     @EqualsAndHashCode
     @AllArgsConstructor
